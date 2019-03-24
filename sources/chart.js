@@ -232,9 +232,9 @@ Chart.prototype.loadXYData = function () {
   let j = 0;
   for (let i in this.data.columns) {
     if (this.data.columns[i][0] === column_x) {
-      this.x_data_sliced = this.data.columns[i].slice(this.x1_range + 1, this.x2_range + 1);
+      this.x_data_sliced = this.data.columns[i].slice(this.x1_range, this.x2_range + 1);
     } else {
-      this.y_data_sliced[this.data.columns[i][0]] = this.data.columns[i].slice(this.x1_range + 1, this.x2_range + 1);
+      this.y_data_sliced[this.data.columns[i][0]] = this.data.columns[i].slice(this.x1_range, this.x2_range + 1);
     }
     j++;
   }
@@ -429,11 +429,14 @@ Chart.prototype.addPan = function () {
   let p_lines = this.getDomHelper().createElementNS(this.svgns, "g", "pan-lines");
   let curve_num_arg = 2;
   let points = {};
+  if (x_ratio.axis_x_num >= this.x_data.length) {
+    return true;
+  }
   for (let i = 0, j = 0; i < x_ratio.axis_x_num; i++, j += x_ratio.axis_x_step) {
     let is_last_iteration = ((i + 1) === x_ratio.axis_x_num);
     let x1 = parseInt(left + (parseInt(j) * x_ratio.x_ratio));
     for (let yp in this.y_data) {
-      if (this.y_inactive[yp]) {
+      if (this.y_inactive[yp] || this.data.types[yp] !== "line") {
         continue;
       }
       let y1 = parseInt(bottom - parseInt(this.y_data[yp][j]) * y_ratio.y_ratio);
