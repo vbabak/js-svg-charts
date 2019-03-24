@@ -207,7 +207,7 @@ Chart.prototype.validate = function (obj) {
     if (!num_points) {
       num_points = obj.columns[i].length;
     } else {
-      if (obj.types[i] === "line" && num_points !== obj.columns[i].length) {
+      if (obj.types[obj.columns[i][0]] === "line" && num_points !== obj.columns[i].length) {
         throw new RangeError("Number of line points on axis does not match");
       }
     }
