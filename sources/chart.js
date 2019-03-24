@@ -223,20 +223,9 @@ Chart.prototype.validate = function (obj) {
   this.data = obj;
 };
 Chart.prototype.loadXYData = function () {
-  let column_x = '';
-  for (let i in this.data.types) {
-    if (this.data.types[i] === 'x') {
-      column_x = i;
-    }
-  }
-  let j = 0;
-  for (let i in this.data.columns) {
-    if (this.data.columns[i][0] === column_x) {
-      this.x_data_sliced = this.data.columns[i].slice(this.x1_range, this.x2_range + 1);
-    } else {
-      this.y_data_sliced[this.data.columns[i][0]] = this.data.columns[i].slice(this.x1_range, this.x2_range + 1);
-    }
-    j++;
+  this.x_data_sliced = this.x_data.slice(this.x1_range, this.x2_range + 1);
+  for (let i in this.y_data) {
+    this.y_data_sliced[i] = this.y_data[i].slice(this.x1_range, this.x2_range + 1);
   }
 };
 
