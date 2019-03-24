@@ -1,0 +1,325 @@
+@background: #ffffff;
+@background_night: #2d2d2d;
+@text_night: #e1e1e1;
+@border: #e1e1e1;
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  color: #333333;
+  background-color: @background;
+  transition: background-color 250ms ease-in;
+  cursor: default;
+
+  &.night {
+    background-color: @background_night;
+    color: @text_night;
+
+    a {
+      color: @text_night;
+    }
+
+    .charts {
+      .chart {
+        svg {
+          background-color: #000000;
+        }
+
+        .chart-tooltip {
+          background-color: #8c8c8c;
+        }
+      }
+    }
+  }
+}
+
+.bottom-controls {
+  text-align: center;
+  padding: 50px;
+}
+
+.chart-switch-mode {
+  .day {
+    display: none;
+  }
+
+  &.night {
+    .day {
+      display: inline;
+    }
+
+    .night {
+      display: none;
+    }
+  }
+}
+
+.charts {
+  .chart {
+    height: 520px;
+    width: 60%;
+    margin: 50px auto 0;
+    padding: 0;
+    position: relative;
+    user-select: none;
+
+    svg {
+      margin: 0;
+      padding: 0;
+
+      height: 100%;
+      width: 100%;
+      display: block;
+      user-select: none;
+      outline: dotted 1px @border;
+      background-color: @background;
+      transition: background-color 250ms ease-in;
+      opacity: 1;
+
+      text {
+        user-select: none;
+      }
+
+      .axis {
+        line {
+          stroke-width: 1px;
+
+          &.x {
+            visibility: hidden;
+
+            &.visible {
+              visibility: visible;
+            }
+          }
+        }
+
+        text {
+          font: normal 13px Arial;
+        }
+      }
+
+      .chart-lines {
+        polyline {
+          stroke-width: 2px;
+          transition: stroke-width 250ms linear;
+
+          &.inactive {
+            stroke-width: 0px;
+          }
+        }
+      }
+
+      .lines-circles {
+        circle.point {
+          fill: @background;
+          transition: stroke-width 250ms linear, stroke-opacity 250ms linear;
+          fill-opacity: 0;
+          stroke-opacity: 0;
+
+          &.hover {
+            fill-opacity: 1;
+            stroke-opacity: 1;
+          }
+        }
+      }
+
+      .interactive-line {
+        stroke: #cacaca;
+        stroke-width: 1px;
+        stroke-opacity: 0;
+
+        &.hover {
+          stroke-opacity: 1;
+        }
+      }
+
+      .tale {
+        path {
+        }
+      }
+    }
+
+    .rect-interactive {
+      position: absolute;
+      background-color: transparent;
+      cursor: default;
+      outline: dotted 1px @border;
+    }
+
+    .chart-tooltip {
+      background-color: @background;
+      display: none;
+      position: fixed;
+      transition: left 50ms linear, top 50ms linear;
+      left: 0;
+      top: 0;
+      margin-top: -200px;
+      margin-left: -30px;
+      box-shadow: 1px 1px 1px @border;
+      border-radius: 4px;
+
+      .tooltip-title {
+        padding: 10px 15px;
+      }
+
+      .tooltip-body > div {
+        &.inactive {
+          display: none;
+        }
+
+        float: left;
+        padding: 5px 10px;
+
+        .name {
+
+        }
+
+        .val {
+          font-weight: bold;
+        }
+      }
+
+      .tooltip-body > div:after {
+        clear: both;
+        content: "";
+        display: inline;
+      }
+
+      &.hover {
+        display: block;
+      }
+    }
+
+    .legend {
+      position: absolute;
+
+      .legend-item {
+        float: left;
+        padding: 0;
+        margin-right: 30px;
+        border: solid 1px @border;
+        border-radius: 20px;
+        transition: box-shadow 250ms linear;
+        font-size: 14px;
+        line-height: 26px;
+        user-select: none;
+
+        &:hover {
+          cursor: pointer;
+          box-shadow: 2px 2px 2px @border;
+        }
+
+        .circle {
+          float: left;
+          margin: 10px;
+          display: inline-block;
+          width: 25px;
+          height: 25px;
+          border-radius: 16px;
+          border: solid 2px;
+          transition: background 250ms linear;
+
+          &.inactive {
+            background: transparent;
+          }
+        }
+
+        .title {
+          margin: 10px;
+          display: inline-block;
+          vertical-align: middle;
+          line-height: 30px;
+          user-select: none;
+        }
+
+        &:after {
+          content: "";
+          display: inline;
+          clear: both;
+        }
+      }
+    }
+
+    .pan {
+      .pan-lines {
+        path {
+          transition: stroke-width 250ms linear;
+
+          &.inactive {
+            stroke-width: 0px;
+          }
+        }
+      }
+    }
+
+    .pan-interactive {
+      position: absolute;
+
+      .pan-root {
+        display: block;
+        @_bg: #7a95d2;
+        //border: solid 1px @_bg;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+
+        .fg-left, .fg-right {
+          opacity: 0.3;
+          background-color: @_bg;
+          position: absolute;
+          height: 100%;
+        }
+
+        .fg-right {
+          right: 0px;
+        }
+
+        .fg-left {
+          left: 0px;
+        }
+
+        .fg {
+          cursor: grab;
+          min-width: 8px;
+          position: absolute;
+          top: 0px;
+          right: 0px;
+          border-top: solid 1px @_bg;
+          border-bottom: solid 1px @_bg;
+
+          .resize-left {
+            left: 0px;
+          }
+
+          .resize-right {
+            right: 0px;
+          }
+
+          .resize-left, .resize-right {
+            cursor: ew-resize;
+            position: absolute;
+            height: 100%;
+            width: 4px;
+            background-color: @_bg;
+            top: 0px;
+            opacity: 0.6;
+          }
+        }
+
+        .fg-left, .fg-right, .fg {
+          transition: left 100ms linear, width 100ms linear;
+        }
+      }
+    }
+  }
+}
