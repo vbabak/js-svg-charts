@@ -653,6 +653,13 @@ Chart.prototype.addLegend = function () {
     group.appendChild(txt);
 
     let handler = function (e) {
+      if (!this.y_inactive[i] && this.ChartMath.getNumDisabled(this.y_inactive) === getObjLength(this.lines) - 1) {
+        this.getDomHelper().removeClass(circle.parentNode, 'shake');
+        setTimeout((function () {
+          this.getDomHelper().addClass(circle.parentNode, 'shake')
+        }).bind(this), 50);
+        return false;
+      }
       if (this.getDomHelper().classExists(circle, 'inactive')) {
         this.y_inactive[i] = false;
       } else {

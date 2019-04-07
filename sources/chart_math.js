@@ -66,3 +66,13 @@ ChartMath.prototype.getInitFGWidth = function (width, axis_x_step) {
   let fg_width = (width * (200 / axis_x_step) / 100);
   return fg_width;
 };
+
+ChartMath.prototype.getNumDisabled = function (y_inactive) {
+  let n = 0;
+  for (let i in y_inactive) {
+    if (y_inactive[i] == true) {
+      n++;
+    }
+  }
+  return n;
+};

@@ -1,3 +1,21 @@
+@keyframes shake {
+  10%, 90% {
+    transform: translate(-1px, 0);
+  }
+
+  20%, 80% {
+    transform: translate(1px, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate(-2px, 0);
+  }
+
+  40%, 60% {
+    transform: translate(2px, 0);
+  }
+}
+
 @background: #ffffff;
 @background_night: #2d2d2d;
 @text_night: #e1e1e1;
@@ -81,6 +99,10 @@ body {
   }
   @media (min-width: 700px) {
     width: 33%;
+  }
+
+  h3 {
+    padding-left: 50px;
   }
 }
 
@@ -244,6 +266,10 @@ body {
         &:hover {
           cursor: pointer;
           box-shadow: 2px 2px 2px @border;
+        }
+
+        &.shake {
+          animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
         }
 
         .circle {
