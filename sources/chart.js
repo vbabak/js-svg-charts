@@ -56,12 +56,12 @@ function Chart(config) {
   this.max_points = 500; // max points allowed on line
   this.container_width = this.container.offsetWidth;
   this.container_height = this.container.offsetHeight;
-  this.axis_padding = [30, 50, 270, 50]; // css padding-style
-  this.pan_height = 100;
+  this.axis_padding = [30, 20, 160, 20]; // css padding-style
+  this.pan_height = 50;
   this.pan_fg_width = null;
   this.pan_fg_left = null;
   this.pan_x_space = 12;
-  this.pan_top_space = 50;
+  this.pan_top_space = 20;
   this.inter_line = null;
   this.tooltip = null;
   this.line_color = "#cf6300"; // default color
@@ -82,14 +82,6 @@ function Chart(config) {
 
 Chart.prototype.setDebugMode = function (is_debug) {
   this.debug_mode = !!is_debug;
-};
-
-Chart.prototype.setPanHeight = function (v) {
-  this.pan_height = v;
-};
-
-Chart.prototype.setChartPadding = function (top, right, bottom, left) {
-  this.axis_padding = [top, right, bottom, left];
 };
 
 Chart.prototype.onFinish = function (callback) {
@@ -182,7 +174,6 @@ Chart.prototype.findMaxMin = function () {
 
   this.loadXYData();
 };
-
 Chart.prototype.validate = function (obj) {
   let props = ["columns", "types", "names", "colors"];
   for (let p in props) {
@@ -642,7 +633,7 @@ Chart.prototype.addPan = function () {
 Chart.prototype.addLegend = function () {
   this.startTime('Chart.addLegend');
   let padding_left = this.getAxisLeft();
-  let vertical_pos = this.getAxisBottom() + this.pan_height + this.pan_top_space + 20;
+  let vertical_pos = this.getAxisBottom() + this.pan_height + this.pan_top_space;
   let legend = this.getDomHelper().createElement('div', this.makeClassName('legend'));
   this.getDomHelper().setStyles(legend, {
     "top": "" + vertical_pos + "px",
@@ -655,6 +646,7 @@ Chart.prototype.addLegend = function () {
     let color = this.data.colors[i] || this.line_color;
     let circle = this.getDomHelper().createElement('div', 'circle');
     this.getDomHelper().setStyles(circle, {"border-color": color, "background": color});
+    circle.appendChild(this.getDomHelper().createElement('div', 'check'));
     group.appendChild(circle);
     let txt = this.getDomHelper().createElement('div', 'title');
     txt.textContent = this.data.names[i];

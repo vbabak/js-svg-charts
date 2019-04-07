@@ -3,7 +3,6 @@
 @text_night: #e1e1e1;
 @border: #e1e1e1;
 html {
-  font-size: 100%;
   overflow-y: scroll;
 }
 
@@ -30,11 +29,19 @@ body {
     .charts {
       .chart {
         svg {
-          background-color: #000000;
+          background-color: @background_night;
         }
 
         .chart-tooltip {
           background-color: #8c8c8c;
+        }
+
+        .pan-interactive {
+          .pan-root {
+            .fg-left, .fg-right {
+              background-color: #000000;
+            }
+          }
         }
       }
     }
@@ -44,6 +51,10 @@ body {
 .bottom-controls {
   text-align: center;
   padding: 50px;
+}
+
+.clear {
+  clear: both;
 }
 
 .chart-switch-mode {
@@ -62,11 +73,24 @@ body {
   }
 }
 
+.ch-container {
+  float: left;
+  width: 100%;
+  @media (min-width: 700px) {
+    width: 50%;
+  }
+  @media (min-width: 700px) {
+    width: 33%;
+  }
+}
+
 .charts {
+  clear: both;
+
   .chart {
-    height: 520px;
-    width: 60%;
-    margin: 50px auto 0;
+    height: 400px;
+    width: 100%;
+    margin: 0;
     padding: 0;
     position: relative;
     user-select: none;
@@ -79,7 +103,7 @@ body {
       width: 100%;
       display: block;
       user-select: none;
-      outline: dotted 1px @border;
+      //outline: dotted 1px @border;
       background-color: @background;
       transition: background-color 250ms ease-in;
       opacity: 1;
@@ -151,7 +175,7 @@ body {
       position: absolute;
       background-color: transparent;
       cursor: default;
-      outline: dotted 1px @border;
+      //outline: dotted 1px @border;
     }
 
     .chart-tooltip {
@@ -190,7 +214,7 @@ body {
       .tooltip-body > div:after {
         clear: both;
         content: "";
-        display: inline;
+        display: block;
       }
 
       &.hover {
@@ -200,16 +224,21 @@ body {
 
     .legend {
       position: absolute;
+      padding-top: 10px;
 
       .legend-item {
+        &:after {
+          content: "";
+          display: block;
+          clear: both;
+        }
+
         float: left;
         padding: 0;
-        margin-right: 30px;
+        margin-right: 8px;
         border: solid 1px @border;
         border-radius: 20px;
         transition: box-shadow 250ms linear;
-        font-size: 14px;
-        line-height: 26px;
         user-select: none;
 
         &:hover {
@@ -219,16 +248,26 @@ body {
 
         .circle {
           float: left;
-          margin: 10px;
+          margin: 8px 7px;
           display: inline-block;
-          width: 25px;
-          height: 25px;
-          border-radius: 16px;
+          width: 17px;
+          height: 17px;
+          border-radius: 12px;
           border: solid 2px;
           transition: background 250ms linear;
 
+          .check {
+            width: 100%;
+            height: 100%;
+            background: url("check.svg") no-repeat center;
+          }
+
           &.inactive {
             background: transparent;
+
+            .check {
+              background: none;
+            }
           }
         }
 
@@ -236,14 +275,7 @@ body {
           margin: 10px;
           display: inline-block;
           vertical-align: middle;
-          line-height: 30px;
           user-select: none;
-        }
-
-        &:after {
-          content: "";
-          display: inline;
-          clear: both;
         }
       }
     }
@@ -314,10 +346,6 @@ body {
             top: 0px;
             opacity: 0.6;
           }
-        }
-
-        .fg-left, .fg-right, .fg {
-          transition: left 100ms linear, width 100ms linear;
         }
       }
     }

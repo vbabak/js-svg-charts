@@ -48,15 +48,13 @@ function initCharts() {
     let chart = new Chart({
       container: ".chart-" + id
     });
-    chart.setDebugMode(1);
+    // chart.setDebugMode(1);
     chart.startTime('chart-' + id);
     chart.load(data[i]);
     chart.setAxisTitleFormatter('x', XAxisDateFormat);
     chart.setAxisTitleFormatter('y', YAxisFormat);
     chart.setYValueFormatter(YValRound);
     chart.setTooltipTitleFormatter(XAxisDateFormatLong);
-    chart.setChartPadding(30, 50, 250, 50);
-    chart.setPanHeight(120);
     chart.draw();
     chart.onFinish(function () {
       chart.endTime('chart-' + id, 1);
